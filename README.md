@@ -3,5 +3,4 @@
 A simple illustration of Perlin noise algorithm
 using p5.js library and HTML canvas.
 
-Inline-style:
 ![alt text](images/particles-line.gif)
