@@ -142,13 +142,13 @@
       this[globalName] = mainExports;
     }
   }
-})({"6IXwR":[function(require,module,exports) {
+})({"dUnXz":[function(require,module,exports) {
 "use strict";
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
-module.bundle.HMR_BUNDLE_ID = "fe4256060641b553";
+module.bundle.HMR_BUNDLE_ID = "239552c5a1c353eb";
 function _toConsumableArray(arr) {
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
@@ -518,17 +518,72 @@ function hmrAcceptRun(bundle, id) {
     acceptedAssets[id] = true;
 }
 
-},{}],"bNKaB":[function(require,module,exports) {
+},{}],"9g82X":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
 var _p5 = require("p5");
 var _p5Default = parcelHelpers.interopDefault(_p5);
-var _sketch = require("./sketch");
-var _sketchDefault = parcelHelpers.interopDefault(_sketch);
-window.onload = ()=>{
-    const sketchInstance = new _p5Default.default(_sketchDefault.default);
-};
+const rainbowEnabled = false;
+class Particle {
+    constructor(env){
+        this.env = env;
+        this.pos = this.env.createVector(env.random(env.width), env.random(env.height));
+        this.vel = _p5Default.default.Vector.random2D();
+        this.acc = this.env.createVector(0, 0);
+        this.maxSpeed = 2;
+        this.color = {
+            red: 0,
+            green: 0,
+            blue: 0
+        };
+    }
+    show() {
+        if (rainbowEnabled) {
+            this.color.red += 1;
+            if (this.color.red > 255) this.color.red = 0;
+        }
+        this.env.stroke(this.color.red, 0, 0, 80);
+        this.env.strokeWeight(0.1);
+        this.env.line(this.prevPos.x, this.prevPos.y, this.pos.x, this.pos.y);
+    }
+    update() {
+        this.persistPos();
+        this.pos.add(this.vel);
+        this.vel.add(this.acc);
+        this.acc.mult(0);
+        this.vel.limit(this.maxSpeed);
+        this.edges();
+    }
+    persistPos() {
+        this.prevPos = this.pos.copy();
+    }
+    applyForce(force) {
+        this.acc.add(force);
+    }
+    edges() {
+        let updated = false;
+        if (this.pos.x > this.env.width) {
+            this.pos.x = 0;
+            updated = true;
+        }
+        if (this.pos.x < 0) {
+            this.pos.x = this.env.width;
+            updated = true;
+        }
+        if (this.pos.y > this.env.height) {
+            this.pos.y = 0;
+            updated = true;
+        }
+        if (this.pos.y < 0) {
+            this.pos.y = this.env.height;
+            updated = true;
+        }
+        if (updated) this.persistPos();
+    }
+}
+exports.default = Particle;
 
-},{"p5":"7Uk5U","./sketch":"1homa","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7Uk5U":[function(require,module,exports) {
+},{"p5":"7Uk5U","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7Uk5U":[function(require,module,exports) {
 var global = arguments[3];
 /*! p5.js v1.4.1 February 02, 2022 */ !function(e) {
     if ("object" == typeof exports && "undefined" != typeof module) module.exports = e();
@@ -28221,139 +28276,7 @@ var global = arguments[3];
     ])(248);
 });
 
-},{}],"1homa":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _p5 = require("p5");
-var _p5Default = parcelHelpers.interopDefault(_p5);
-var _particle = require("./particle");
-var _particleDefault = parcelHelpers.interopDefault(_particle);
-var _fps = require("./fps");
-var _fpsDefault = parcelHelpers.interopDefault(_fps);
-const sketch = (env)=>{
-    with (env){
-        const width = 800;
-        const height = 600;
-        // scale the canvas
-        const scl = 20;
-        const cols = floor(width / scl);
-        const rows = floor(height / scl);
-        let zoff = 0;
-        let velocity = 0.1;
-        let totalParticles = 1000;
-        let particles = [];
-        let vectors = [];
-        let fps = new _fpsDefault.default(env);
-        const createParticles = ()=>{
-            for(let i = 0; i < totalParticles; i++)particles.push(new _particleDefault.default(env));
-        };
-        const getFlatIndex = (x, y)=>x + y * cols
-        ;
-        const getVector = (x, y)=>vectors[getFlatIndex(x, y)]
-        ;
-        const moveParticles = ()=>{
-            particles.forEach((p)=>{
-                p.update();
-                p.show();
-                const x = floor(p.pos.x / scl);
-                const y = floor(p.pos.y / scl);
-                p.applyForce(getVector(x, y));
-            });
-        };
-        env.setup = ()=>{
-            createCanvas(width, height);
-            pixelDensity(1);
-            colorMode(HSB, 255);
-            background(255);
-            createParticles();
-            fps.show();
-        };
-        env.draw = ()=>{
-            let yoff = 0;
-            for(let y = 0; y < rows; y++){
-                let xoff = 0;
-                for(let x = 0; x < cols; x++){
-                    const angle = noise(xoff, yoff, zoff) * TWO_PI;
-                    const index = getFlatIndex(x, y);
-                    vectors[index] = _p5Default.default.Vector.fromAngle(angle).setMag(5);
-                    xoff += velocity;
-                }
-                yoff += velocity;
-            }
-            zoff += velocity / 10;
-            moveParticles();
-            fps.update();
-        };
-    }
-};
-exports.default = sketch;
-
-},{"p5":"7Uk5U","./particle":"9g82X","./fps":"7i3IL","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9g82X":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _p5 = require("p5");
-var _p5Default = parcelHelpers.interopDefault(_p5);
-const rainbowEnabled = false;
-class Particle {
-    constructor(env){
-        this.env = env;
-        this.pos = this.env.createVector(env.random(env.width), env.random(env.height));
-        this.vel = _p5Default.default.Vector.random2D();
-        this.acc = this.env.createVector(0, 0);
-        this.maxSpeed = 2;
-        this.color = {
-            red: 0,
-            green: 0,
-            blue: 0
-        };
-    }
-    show() {
-        if (rainbowEnabled) {
-            this.color.red += 1;
-            if (this.color.red > 255) this.color.red = 0;
-        }
-        this.env.stroke(this.color.red, 0, 0, 80);
-        this.env.strokeWeight(0.1);
-        this.env.line(this.prevPos.x, this.prevPos.y, this.pos.x, this.pos.y);
-    }
-    update() {
-        this.persistPos();
-        this.pos.add(this.vel);
-        this.vel.add(this.acc);
-        this.acc.mult(0);
-        this.vel.limit(this.maxSpeed);
-        this.edges();
-    }
-    persistPos() {
-        this.prevPos = this.pos.copy();
-    }
-    applyForce(force) {
-        this.acc.add(force);
-    }
-    edges() {
-        let updated = false;
-        if (this.pos.x > this.env.width) {
-            this.pos.x = 0;
-            updated = true;
-        }
-        if (this.pos.x < 0) {
-            this.pos.x = this.env.width;
-            updated = true;
-        }
-        if (this.pos.y > this.env.height) {
-            this.pos.y = 0;
-            updated = true;
-        }
-        if (this.pos.y < 0) {
-            this.pos.y = this.env.height;
-            updated = true;
-        }
-        if (updated) this.persistPos();
-    }
-}
-exports.default = Particle;
-
-},{"p5":"7Uk5U","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+},{}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -28383,23 +28306,6 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"7i3IL":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-class Fps {
-    constructor(env){
-        this.env = env;
-        this.fr = null;
-    }
-    show() {
-        this.fr = this.env.createP();
-    }
-    update() {
-        this.fr.html(Math.floor(this.env.frameRate()) + " fps");
-    }
-}
-exports.default = Fps;
+},{}]},["dUnXz","9g82X"], "9g82X", "parcelRequire3b1d")
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["6IXwR","bNKaB"], "bNKaB", "parcelRequire3b1d")
-
-//# sourceMappingURL=app.js.map
+//# sourceMappingURL=particle.js.map
