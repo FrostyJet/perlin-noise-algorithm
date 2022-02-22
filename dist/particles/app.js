@@ -142,13 +142,13 @@
       this[globalName] = mainExports;
     }
   }
-})({"bDtUd":[function(require,module,exports) {
+})({"8vLeZ":[function(require,module,exports) {
 "use strict";
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
-module.bundle.HMR_BUNDLE_ID = "f445b6e96d41887a";
+module.bundle.HMR_BUNDLE_ID = "d1ded0dbff831192";
 function _toConsumableArray(arr) {
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
@@ -518,74 +518,21 @@ function hmrAcceptRun(bundle, id) {
     acceptedAssets[id] = true;
 }
 
-},{}],"1homa":[function(require,module,exports) {
+},{}],"j5vr4":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _p5 = require("p5");
 var _p5Default = parcelHelpers.interopDefault(_p5);
-var _particle = require("./particle");
-var _particleDefault = parcelHelpers.interopDefault(_particle);
-var _fps = require("./fps");
-var _fpsDefault = parcelHelpers.interopDefault(_fps);
-const sketch = (env)=>{
-    with (env){
-        const width = 800;
-        const height = 600;
-        // scale the canvas
-        const scl = 20;
-        const cols = floor(width / scl);
-        const rows = floor(height / scl);
-        let zoff = 0;
-        let velocity = 0.1;
-        let totalParticles = 1000;
-        let particles = [];
-        let vectors = [];
-        let fps = new _fpsDefault.default(env);
-        const createParticles = ()=>{
-            for(let i = 0; i < totalParticles; i++)particles.push(new _particleDefault.default(env));
-        };
-        const getFlatIndex = (x, y)=>x + y * cols
-        ;
-        const getVector = (x, y)=>vectors[getFlatIndex(x, y)]
-        ;
-        const moveParticles = ()=>{
-            particles.forEach((p)=>{
-                p.update();
-                p.show();
-                const x = floor(p.pos.x / scl);
-                const y = floor(p.pos.y / scl);
-                p.applyForce(getVector(x, y));
-            });
-        };
-        env.setup = ()=>{
-            createCanvas(width, height);
-            pixelDensity(1);
-            colorMode(HSB, 255);
-            background(255);
-            createParticles();
-            fps.show();
-        };
-        env.draw = ()=>{
-            let yoff = 0;
-            for(let y = 0; y < rows; y++){
-                let xoff = 0;
-                for(let x = 0; x < cols; x++){
-                    const angle = noise(xoff, yoff, zoff) * TWO_PI;
-                    const index = getFlatIndex(x, y);
-                    vectors[index] = _p5Default.default.Vector.fromAngle(angle).setMag(5);
-                    xoff += velocity;
-                }
-                yoff += velocity;
-            }
-            zoff += velocity / 10;
-            moveParticles();
-            fps.update();
-        };
-    }
+var _sketch = require("./sketch");
+var _sketchDefault = parcelHelpers.interopDefault(_sketch);
+const init = ()=>{
+    const sketchInstance = new _p5Default.default(_sketchDefault.default);
 };
-exports.default = sketch;
+exports.default = {
+    init
+};
 
-},{"p5":"7Uk5U","./particle":"9g82X","./fps":"7i3IL","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7Uk5U":[function(require,module,exports) {
+},{"p5":"7Uk5U","./sketch":"9AGwv","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7Uk5U":[function(require,module,exports) {
 var global = arguments[3];
 /*! p5.js v1.4.1 February 02, 2022 */ !function(e) {
     if ("object" == typeof exports && "undefined" != typeof module) module.exports = e();
@@ -28278,7 +28225,74 @@ var global = arguments[3];
     ])(248);
 });
 
-},{}],"9g82X":[function(require,module,exports) {
+},{}],"9AGwv":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _p5 = require("p5");
+var _p5Default = parcelHelpers.interopDefault(_p5);
+var _particle = require("./particle");
+var _particleDefault = parcelHelpers.interopDefault(_particle);
+var _fps = require("./fps");
+var _fpsDefault = parcelHelpers.interopDefault(_fps);
+const sketch = (env)=>{
+    with (env){
+        const width = 800;
+        const height = 600;
+        // scale the canvas
+        const scl = 20;
+        const cols = floor(width / scl);
+        const rows = floor(height / scl);
+        let zoff = 0;
+        let velocity = 0.1;
+        let totalParticles = 1000;
+        let particles = [];
+        let vectors = [];
+        let fps = new _fpsDefault.default(env);
+        const createParticles = ()=>{
+            for(let i = 0; i < totalParticles; i++)particles.push(new _particleDefault.default(env));
+        };
+        const getFlatIndex = (x, y)=>x + y * cols
+        ;
+        const getVector = (x, y)=>vectors[getFlatIndex(x, y)]
+        ;
+        const moveParticles = ()=>{
+            particles.forEach((p)=>{
+                p.update();
+                p.show();
+                const x = floor(p.pos.x / scl);
+                const y = floor(p.pos.y / scl);
+                p.applyForce(getVector(x, y));
+            });
+        };
+        env.setup = ()=>{
+            createCanvas(width, height);
+            pixelDensity(1);
+            colorMode(HSB, 255);
+            background(255);
+            createParticles();
+            fps.show();
+        };
+        env.draw = ()=>{
+            let yoff = 0;
+            for(let y = 0; y < rows; y++){
+                let xoff = 0;
+                for(let x = 0; x < cols; x++){
+                    const angle = noise(xoff, yoff, zoff) * TWO_PI;
+                    const index = getFlatIndex(x, y);
+                    vectors[index] = _p5Default.default.Vector.fromAngle(angle).setMag(5);
+                    xoff += velocity;
+                }
+                yoff += velocity;
+            }
+            zoff += velocity / 10;
+            moveParticles();
+            fps.update();
+        };
+    }
+};
+exports.default = sketch;
+
+},{"p5":"7Uk5U","./particle":"aZLyZ","./fps":"aW1Ez","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aZLyZ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _p5 = require("p5");
@@ -28373,7 +28387,7 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"7i3IL":[function(require,module,exports) {
+},{}],"aW1Ez":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class Fps {
@@ -28390,6 +28404,6 @@ class Fps {
 }
 exports.default = Fps;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["bDtUd","1homa"], "1homa", "parcelRequire3b1d")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["8vLeZ","j5vr4"], "j5vr4", "parcelRequire3b1d")
 
-//# sourceMappingURL=sketch.js.map
+//# sourceMappingURL=app.js.map

@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "parcel",
-    "start:dev": "parcel serve src/* --open",
+    "start:dev": "parcel serve src/**/*.html src/**/*.js",
     "build": "parcel build"
   },
   "dependencies": {

@@ -142,13 +142,13 @@
       this[globalName] = mainExports;
     }
   }
-})({"cN1qq":[function(require,module,exports) {
+})({"6IXwR":[function(require,module,exports) {
 "use strict";
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
-module.bundle.HMR_BUNDLE_ID = "4b5f129bf7b32c93";
+module.bundle.HMR_BUNDLE_ID = "fe4256060641b553";
 function _toConsumableArray(arr) {
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
@@ -518,71 +518,28 @@ function hmrAcceptRun(bundle, id) {
     acceptedAssets[id] = true;
 }
 
-},{}],"hX0dT":[function(require,module,exports) {
+},{}],"bNKaB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-const sketch = (s)=>{
-    const width = 400;
-    const height = 400;
-    const velocity = 0.01;
-    let start = 0;
-    s.setup = ()=>{
-        s.createCanvas(width, height);
-        s.pixelDensity(1);
-        s.noiseDetail(8, 0.6);
+var _particles = require("./particles");
+var _particlesDefault = parcelHelpers.interopDefault(_particles);
+var _terrainGeneration = require("./terrain-generation");
+var _terrainGenerationDefault = parcelHelpers.interopDefault(_terrainGeneration);
+window.onload = function() {
+    const apps = {
+        particles: _particlesDefault.default,
+        terrain: _terrainGenerationDefault.default
     };
-    s.draw = ()=>{
-        s.loadPixels();
-        let yoff = 0;
-        for(let y = 0; y < height; y++){
-            let xoff = start;
-            for(let x = 0; x < width; x++){
-                const index = (x + y * width) * 4;
-                let r = s.noise(xoff, yoff) * 255;
-                s.pixels[index + 0] = r;
-                s.pixels[index + 1] = r;
-                s.pixels[index + 2] = r;
-                s.pixels[index + 3] = 255;
-                xoff += velocity;
-            }
-            yoff += velocity;
-        }
-        start += 0.01;
-        s.updatePixels();
-    };
-};
-exports.default = sketch;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, '__esModule', {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === 'default' || key === '__esModule' || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
+    let instance = _terrainGenerationDefault.default.init();
+    let buttons = document.querySelectorAll(".switch-app");
+    buttons.forEach((button)=>{
+        button.addEventListener("click", ()=>{
+            let appName = button.dataset.app;
+            instance.remove();
+            instance = apps[appName].init();
         });
     });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
 };
 
-},{}]},["cN1qq","hX0dT"], "hX0dT", "parcelRequire3b1d")
+},{"./particles":"3FUzE","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./terrain-generation":"hqwve"}]},["6IXwR","bNKaB"], "bNKaB", "parcelRequire3b1d")
 
-//# sourceMappingURL=sketch-fog.js.map
+//# sourceMappingURL=index.0641b553.js.map
