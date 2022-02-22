@@ -1,9 +1,9 @@
 # Perlin noise algorithm visualized
 
 A simple illustration of Perlin noise algorithm
-using p5.js library and HTML canvas.
+using p5.js library and HTML canvas (WebGL).
 
-![alt text](images/particles-line.gif)
+<img src="images/particles-line.gif" width="400"/> <img src="images/terrain.gif" width="400"/>
 
 1. Install dependencies
 
